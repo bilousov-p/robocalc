@@ -1,15 +1,16 @@
 package ua.nure.bilousov.robocalc.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import ua.nure.bilousov.robocalc.dto.request.InputParamsRequest;
 
 @RestController
-@RequestMapping("/main")
+@CrossOrigin
+@RequestMapping("/calc")
 public class CalculatorController {
 
-    @GetMapping("/get")
-    public String getParams(){
+    @PostMapping("/calculateParams")
+    public String calculateParams(@RequestBody InputParamsRequest paramsRequest){
+        System.out.println(paramsRequest);
         return "Hello";
     }
 }
