@@ -5,7 +5,9 @@ import ua.nure.bilousov.robocalc.model.ShapeOfArea;
 import ua.nure.bilousov.robocalc.model.calculated.CalculatedParams;
 import ua.nure.bilousov.robocalc.model.calculated.EngineParams;
 import ua.nure.bilousov.robocalc.model.calculated.ManipulatorParams;
+import ua.nure.bilousov.robocalc.model.calculated.WeldParams;
 import ua.nure.bilousov.robocalc.model.input.InputParams;
+import ua.nure.bilousov.robocalc.model.input.InputWeldParams;
 import ua.nure.bilousov.robocalc.service.CalculatorService;
 
 
@@ -24,6 +26,15 @@ public class CalculatorServiceImpl implements CalculatorService {
         calculatedParams.setManipulatorParams(calculateManipulatorParams(inputParams));
         calculatedParams.setNumberOfFreedoms(calculateNumberOfFreedoms(calculatedParams.getManipulatorParams()));
         calculatedParams.setEngineParams(calculateEngineParams(inputParams, calculatedParams.getManipulatorParams()));
+
+        switch (inputParams.getFieldOfUse()){
+            case WELD:
+                calculateWeldParams(inputParams.getInputWeldParams());
+                break;
+            case MOVE:
+            case OTHER:
+                break;
+        }
 
         return calculatedParams;
     }
@@ -97,5 +108,11 @@ public class CalculatorServiceImpl implements CalculatorService {
         }
 
         return engineParams;
+    }
+
+    private WeldParams calculateWeldParams(InputWeldParams inputWeldParams) {
+        WeldParams weldParams = new WeldParams();
+
+        return weldParams;
     }
 }
