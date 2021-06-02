@@ -7,6 +7,7 @@ import ua.nure.bilousov.robocalc.model.calculated.ManipulatorParams;
 import ua.nure.bilousov.robocalc.model.input.InputParams;
 import ua.nure.bilousov.robocalc.service.CalculatorService;
 
+
 @Service
 public class CalculatorServiceImpl implements CalculatorService {
 
@@ -15,11 +16,12 @@ public class CalculatorServiceImpl implements CalculatorService {
         CalculatedParams calculatedParams = new CalculatedParams();
 
         calculatedParams.setManipulatorParams(calculateManipulatorParams(inputParams));
+        calculatedParams.setNumberOfFreedoms(calculateNumberOfFreedoms(calculatedParams.getManipulatorParams()));
 
         return calculatedParams;
     }
 
-    public ManipulatorParams calculateManipulatorParams(InputParams inputParams) {
+    private ManipulatorParams calculateManipulatorParams(InputParams inputParams) {
         ManipulatorParams manipulatorParams = new ManipulatorParams();
 
         if (inputParams.getShapeOfArea().equals(ShapeOfArea.CYLINDER)) {
@@ -51,5 +53,9 @@ public class CalculatorServiceImpl implements CalculatorService {
         }
 
         return manipulatorParams;
+    }
+
+    private Integer calculateNumberOfFreedoms(ManipulatorParams manipulatorParams) {
+        return 3*manipulatorParams.getNumberOfChains() - 2*manipulatorParams.getNumberOfSteadyLinks() - manipulatorParams.getNumberOfAngleLinks();
     }
 }
