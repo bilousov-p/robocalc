@@ -1,7 +1,7 @@
 package ua.nure.bilousov.robocalc.controller;
 
 import org.springframework.web.bind.annotation.*;
-import ua.nure.bilousov.robocalc.dto.request.InputParamsRequest;
+import ua.nure.bilousov.robocalc.model.InputParams;
 
 @RestController
 @CrossOrigin
@@ -9,7 +9,7 @@ import ua.nure.bilousov.robocalc.dto.request.InputParamsRequest;
 public class CalculatorController {
 
     @PostMapping("/calculateParams")
-    public String calculateParams(@RequestBody InputParamsRequest paramsRequest){
+    public String calculateParams(@RequestBody InputParams paramsRequest){
         System.out.println(paramsRequest);
         return "Hello";
     }

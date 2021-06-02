@@ -1,9 +1,9 @@
-package ua.nure.bilousov.robocalc.dto.request;
+package ua.nure.bilousov.robocalc.model;
 
 import lombok.Data;
 
 @Data
-public class WeldParamsRequest {
+public class InputWeldParams {
 
     private Double voltage;
 
