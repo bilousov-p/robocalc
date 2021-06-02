@@ -1,4 +1,4 @@
-package ua.nure.bilousov.robocalc.model;
+package ua.nure.bilousov.robocalc.model.input;
 
 import lombok.Data;
 

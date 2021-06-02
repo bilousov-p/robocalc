@@ -1,6 +1,8 @@
-package ua.nure.bilousov.robocalc.model;
+package ua.nure.bilousov.robocalc.model.input;
 
 import lombok.Data;
+import ua.nure.bilousov.robocalc.model.FieldOfUse;
+import ua.nure.bilousov.robocalc.model.ShapeOfArea;
 
 @Data
 public class InputParams {
