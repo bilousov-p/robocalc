@@ -3,6 +3,7 @@ package ua.nure.bilousov.robocalc.service.impl;
 import org.springframework.stereotype.Service;
 import ua.nure.bilousov.robocalc.model.ShapeOfArea;
 import ua.nure.bilousov.robocalc.model.calculated.CalculatedParams;
+import ua.nure.bilousov.robocalc.model.calculated.EngineParams;
 import ua.nure.bilousov.robocalc.model.calculated.ManipulatorParams;
 import ua.nure.bilousov.robocalc.model.input.InputParams;
 import ua.nure.bilousov.robocalc.service.CalculatorService;
@@ -14,6 +15,7 @@ public class CalculatorServiceImpl implements CalculatorService {
     private final Double FIRST_PAIR_RATIO = 0.3;
     private final Double SECOND_PAIR_RATIO = 0.26;
     private final Double THIRD_PAIR_RATIO = 0.44;
+    private final Integer DEFAULT_ENGINE_WEIGHT = 5;
 
     @Override
     public CalculatedParams calculateParameters(InputParams inputParams) {
@@ -21,6 +23,7 @@ public class CalculatorServiceImpl implements CalculatorService {
 
         calculatedParams.setManipulatorParams(calculateManipulatorParams(inputParams));
         calculatedParams.setNumberOfFreedoms(calculateNumberOfFreedoms(calculatedParams.getManipulatorParams()));
+        calculatedParams.setEngineParams(calculateEngineParams(inputParams, calculatedParams.getManipulatorParams()));
 
         return calculatedParams;
     }
@@ -30,9 +33,9 @@ public class CalculatorServiceImpl implements CalculatorService {
 
         if (inputParams.getShapeOfArea().equals(ShapeOfArea.CYLINDER)) {
             manipulatorParams.setNumberOfChains(2);
+        } else {
+            manipulatorParams.setNumberOfChains(3);
         }
-
-        manipulatorParams.setNumberOfChains(3);
 
         switch (inputParams.getShapeOfArea()) {
             case CYLINDER:
@@ -72,5 +75,27 @@ public class CalculatorServiceImpl implements CalculatorService {
 
     private Integer calculateNumberOfFreedoms(ManipulatorParams manipulatorParams) {
         return 3*manipulatorParams.getNumberOfChains() - 2*manipulatorParams.getNumberOfSteadyLinks() - manipulatorParams.getNumberOfAngleLinks();
+    }
+
+    private EngineParams calculateEngineParams(InputParams inputParams, ManipulatorParams manipulatorParams){
+        EngineParams engineParams = new EngineParams();
+
+        if (inputParams.getShapeOfArea().equals(ShapeOfArea.CYLINDER)) {
+            Double secondEngineTorque = (inputParams.getCargoCapacity() * manipulatorParams.getSecondChainSize()) / 10;
+            Double firstEngineTorque = ((inputParams.getCargoCapacity() + DEFAULT_ENGINE_WEIGHT) * manipulatorParams.getFirstChainSize()) / 10;
+
+            engineParams.setFirstLinkTorque(firstEngineTorque);
+            engineParams.setSecondLinkTorque(secondEngineTorque);
+        } else {
+            Double thirdEngineTorque = (inputParams.getCargoCapacity() * manipulatorParams.getSecondChainSize()) / 10;
+            Double secondEngineTorque = ((inputParams.getCargoCapacity() + DEFAULT_ENGINE_WEIGHT) * manipulatorParams.getFirstChainSize()) / 10;
+            Double firstEngineTorque = ((inputParams.getCargoCapacity() + DEFAULT_ENGINE_WEIGHT + DEFAULT_ENGINE_WEIGHT) * manipulatorParams.getFirstChainSize()) / 10;
+
+            engineParams.setFirstLinkTorque(firstEngineTorque);
+            engineParams.setSecondLinkTorque(secondEngineTorque);
+            engineParams.setThirdLinkTorque(thirdEngineTorque);
+        }
+
+        return engineParams;
     }
 }
