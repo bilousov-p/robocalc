@@ -7,4 +7,6 @@ public class CalculatedParams {
     private ManipulatorParams manipulatorParams;
 
     private EngineParams engineParams;
+
+    private WeldParams weldParams;
 }
