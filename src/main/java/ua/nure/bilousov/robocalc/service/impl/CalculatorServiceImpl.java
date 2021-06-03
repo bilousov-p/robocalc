@@ -18,6 +18,7 @@ public class CalculatorServiceImpl implements CalculatorService {
     private final Double SECOND_PAIR_RATIO = 0.26;
     private final Double THIRD_PAIR_RATIO = 0.44;
     private final Integer DEFAULT_ENGINE_WEIGHT = 5;
+    private final Integer DEFAULT_STEP_AMPERAGE_VALUE = 130;
 
     @Override
     public CalculatedParams calculateParameters(InputParams inputParams) {
@@ -29,7 +30,7 @@ public class CalculatorServiceImpl implements CalculatorService {
 
         switch (inputParams.getFieldOfUse()){
             case WELD:
-                calculateWeldParams(inputParams.getInputWeldParams());
+                calculatedParams.setWeldParams(calculateWeldParams(inputParams.getInputWeldParams()));
                 break;
             case MOVE:
             case OTHER:
@@ -112,6 +113,23 @@ public class CalculatorServiceImpl implements CalculatorService {
 
     private WeldParams calculateWeldParams(InputWeldParams inputWeldParams) {
         WeldParams weldParams = new WeldParams();
+
+        Double power = 1.5 * inputWeldParams.getCoreSection() * inputWeldParams.getCoreWindowSection();
+        weldParams.setTransformerPower(power);
+
+        Double coilsPerVolt = 50 / inputWeldParams.getCoreSection();
+        Double maxAmperage = power / inputWeldParams.getVoltage();
+
+        Double secondNumOfCoils = inputWeldParams.getSecondCoilVoltage() / coilsPerVolt;
+        weldParams.setSecondWireNumberOfCoils(secondNumOfCoils.intValue());
+
+        Double stepVoltage = power / DEFAULT_STEP_AMPERAGE_VALUE;
+
+        Double firstNumOfCoils = stepVoltage / coilsPerVolt;
+        weldParams.setFirstWireNumberOfCoils(firstNumOfCoils.intValue());
+
+        weldParams.setSecondWireSection(maxAmperage / inputWeldParams.getCurrentDensity());
+        weldParams.setFirstWireSection(DEFAULT_STEP_AMPERAGE_VALUE / inputWeldParams.getCurrentDensity());
 
         return weldParams;
     }

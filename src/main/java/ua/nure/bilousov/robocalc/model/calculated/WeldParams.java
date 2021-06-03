@@ -7,7 +7,9 @@ public class WeldParams {
 
     private Double transformerPower;
 
-    private Integer numberOfCoils;
+    private Integer firstWireNumberOfCoils;
+
+    private Integer secondWireNumberOfCoils;
 
     private Double firstWireSection;
 

@@ -12,4 +12,8 @@ public class InputWeldParams {
     private Double amperage;
 
     private Double currentDensity;
+
+    private Double coreSection;
+
+    private Double coreWindowSection;
 }
