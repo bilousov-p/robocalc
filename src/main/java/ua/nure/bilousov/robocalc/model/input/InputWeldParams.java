@@ -2,8 +2,18 @@ package ua.nure.bilousov.robocalc.model.input;
 
 import lombok.Data;
 
+import javax.persistence.*;
+
+@Entity
 @Data
 public class InputWeldParams {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @OneToOne
+    private InputParams inputParams;
 
     private Double voltage;
 

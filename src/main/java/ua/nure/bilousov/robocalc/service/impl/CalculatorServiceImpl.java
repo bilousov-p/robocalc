@@ -1,5 +1,7 @@
 package ua.nure.bilousov.robocalc.service.impl;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 import ua.nure.bilousov.robocalc.model.ShapeOfArea;
 import ua.nure.bilousov.robocalc.model.calculated.CalculatedParams;
@@ -8,11 +10,18 @@ import ua.nure.bilousov.robocalc.model.calculated.ManipulatorParams;
 import ua.nure.bilousov.robocalc.model.calculated.WeldParams;
 import ua.nure.bilousov.robocalc.model.input.InputParams;
 import ua.nure.bilousov.robocalc.model.input.InputWeldParams;
+import ua.nure.bilousov.robocalc.repository.CalculatedParamsRepository;
 import ua.nure.bilousov.robocalc.service.CalculatorService;
+
+import javax.persistence.EntityNotFoundException;
+import java.util.List;
 
 
 @Service
+@RequiredArgsConstructor
 public class CalculatorServiceImpl implements CalculatorService {
+
+    private final CalculatedParamsRepository calculatedParamsRepository;
 
     private final Double FIRST_PAIR_RATIO = 0.3;
     private final Double SECOND_PAIR_RATIO = 0.26;
@@ -23,6 +32,7 @@ public class CalculatorServiceImpl implements CalculatorService {
     @Override
     public CalculatedParams calculateParameters(InputParams inputParams) {
         CalculatedParams calculatedParams = new CalculatedParams();
+        calculatedParams.setInputParams(inputParams);
 
         calculatedParams.setManipulatorParams(calculateManipulatorParams(inputParams));
         calculatedParams.setNumberOfFreedoms(calculateNumberOfFreedoms(calculatedParams.getManipulatorParams()));
@@ -37,7 +47,18 @@ public class CalculatorServiceImpl implements CalculatorService {
                 break;
         }
 
+        calculatedParamsRepository.save(calculatedParams);
         return calculatedParams;
+    }
+
+    @Override
+    public List<CalculatedParams> getAllCalculations() {
+        return (List<CalculatedParams>) calculatedParamsRepository.findAll();
+    }
+
+    @Override
+    public CalculatedParams getCalculationsById(Long id) {
+        return calculatedParamsRepository.findById(id).orElseThrow(EntityNotFoundException::new);
     }
 
     private ManipulatorParams calculateManipulatorParams(InputParams inputParams) {
