@@ -8,6 +8,7 @@ import ua.nure.bilousov.robocalc.service.CalculatorService;
 
 import java.util.List;
 
+// TODO: Move ulrs to ControllerConstants
 @RestController
 @CrossOrigin
 @RequestMapping("/calc")
@@ -16,7 +17,7 @@ public class CalculatorController {
 
     private final CalculatorService calculatorService;
 
-
+    // TODO: Do not create InputWeldParams if null
     @PostMapping("/calculateParams")
     public CalculatedParams calculateParams(@RequestBody InputParams paramsRequest){
        return calculatorService.calculateParameters(paramsRequest);

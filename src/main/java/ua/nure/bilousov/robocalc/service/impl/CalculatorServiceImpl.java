@@ -16,7 +16,7 @@ import ua.nure.bilousov.robocalc.service.CalculatorService;
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
-
+// TODO: Refactor this code
 @Service
 @RequiredArgsConstructor
 public class CalculatorServiceImpl implements CalculatorService {
