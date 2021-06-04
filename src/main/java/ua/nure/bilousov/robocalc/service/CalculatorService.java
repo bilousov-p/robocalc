@@ -13,4 +13,6 @@ public interface CalculatorService {
     List<CalculatedParams> getAllCalculations();
 
     CalculatedParams getCalculationsById(Long id);
+
+    void deleteCalculationById(Long id);
 }

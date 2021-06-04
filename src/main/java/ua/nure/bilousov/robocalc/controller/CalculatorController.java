@@ -31,4 +31,9 @@ public class CalculatorController {
     public CalculatedParams getCalculationById(@PathVariable Long id){
         return calculatorService.getCalculationsById(id);
     }
+
+    @DeleteMapping("/delete/{id}")
+    public void deleteCalculationById(@PathVariable Long id){
+        calculatorService.deleteCalculationById(id);
+    }
 }

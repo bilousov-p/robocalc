@@ -61,6 +61,11 @@ public class CalculatorServiceImpl implements CalculatorService {
         return calculatedParamsRepository.findById(id).orElseThrow(EntityNotFoundException::new);
     }
 
+    @Override
+    public void deleteCalculationById(Long id) {
+        calculatedParamsRepository.deleteById(id);
+    }
+
     private ManipulatorParams calculateManipulatorParams(InputParams inputParams) {
         ManipulatorParams manipulatorParams = new ManipulatorParams();
 
