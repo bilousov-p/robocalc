@@ -8,32 +8,34 @@ import ua.nure.bilousov.robocalc.service.CalculatorService;
 
 import java.util.List;
 
-// TODO: Move ulrs to ControllerConstants
+import static ua.nure.bilousov.robocalc.constant.ControllerConstants.*;
+
+
 @RestController
 @CrossOrigin
-@RequestMapping("/calc")
+@RequestMapping(CALC_CONTROLLER_URL)
 @RequiredArgsConstructor
 public class CalculatorController {
 
     private final CalculatorService calculatorService;
 
     // TODO: Do not create InputWeldParams if null
-    @PostMapping("/calculateParams")
+    @PostMapping(CALCULATE_PARAMS)
     public CalculatedParams calculateParams(@RequestBody InputParams paramsRequest){
        return calculatorService.calculateParameters(paramsRequest);
     }
 
-    @GetMapping("/getAll")
+    @GetMapping(GET_ALL)
     public List<CalculatedParams> getAllCalculations(){
         return calculatorService.getAllCalculations();
     }
 
-    @GetMapping("/getById/{id}")
+    @GetMapping(GET_BY_ID)
     public CalculatedParams getCalculationById(@PathVariable Long id){
         return calculatorService.getCalculationsById(id);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping(DELETE_BY_ID)
     public void deleteCalculationById(@PathVariable Long id){
         calculatorService.deleteCalculationById(id);
     }
