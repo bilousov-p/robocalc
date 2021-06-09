@@ -12,9 +12,6 @@ public class WeldParams {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    @OneToOne
-//    private CalculatedParams calculatedParams;
-
     private Double transformerPower;
 
     private Integer firstWireNumberOfCoils;

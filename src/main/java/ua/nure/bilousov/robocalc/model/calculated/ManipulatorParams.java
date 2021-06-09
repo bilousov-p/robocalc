@@ -12,9 +12,6 @@ public class ManipulatorParams {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    @OneToOne
-//    private CalculatedParams calculatedParams;
-
     private Integer numberOfChains;
 
     private Integer numberOfSteadyLinks;

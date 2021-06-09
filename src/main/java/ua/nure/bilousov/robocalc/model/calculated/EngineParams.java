@@ -12,9 +12,6 @@ public class EngineParams {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    @OneToOne
-//    private CalculatedParams calculatedParams;
-
     private Double firstLinkTorque;
 
     private Double secondLinkTorque;
